@@ -45,7 +45,23 @@ class CourseService:
     def get_complet_course(self):
         with self.database.create_session() as session:
             statement = select(GroupClasses).where(
-             GroupClasses.status == "disponible")
+             GroupClasses.registered_count == GroupClasses.capacity_of_participants)
 
             courses = session.scalars(statement).all()
             return courses
+        
+    def get_course_id(self, course_id):
+         with self.database.create_session() as session:
+            course = session.get(GroupClasses, course_id)
+            return course
+        
+    def register_to_course(self,course_id):
+        with self.database.create_session() as session:
+            course = session.get(GroupClasses, course_id)
+            if course is None:
+                return (False, "\nCours introuvable.")
+            if course.registered_count >= course.capacity_of_participants:
+                return (False, "\nImpossible : ce cours est complet.")
+            course.registered_count += 1
+            session.commit()
+            return (True, "\nInscription validée.") 
