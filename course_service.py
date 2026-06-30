@@ -34,18 +34,18 @@ class CourseService:
             session.add(course)
             session.commit()
             
-        return True, "\nCours ajouté avec succés."
+        return True, "\nCours ajouté avec succés." # Si il n'y a pas d'erreur c'est concidérer comme True
         
     def get_all_course(self):
         with self.database.create_session() as session:
             statement = select(GroupClasses)
             courses = session.scalars(statement).all()
-            return courses
+            return courses # La fonction permet de récuperer tout les cours
     
     def get_complet_course(self):
         with self.database.create_session() as session:
             statement = select(GroupClasses).where(
-             GroupClasses.registered_count == GroupClasses.capacity_of_participants)
+             GroupClasses.registered_count == GroupClasses.capacity_of_participants) # La fonction qui permet de récuperer les cours complet
 
             courses = session.scalars(statement).all()
             return courses
@@ -53,7 +53,7 @@ class CourseService:
     def get_course_id(self, course_id):
          with self.database.create_session() as session:
             course = session.get(GroupClasses, course_id)
-            return course
+            return course # Fonciton qui cherche dans la base le cours qui correspond à cet l'id
         
     def register_to_course(self,course_id):
         with self.database.create_session() as session:
@@ -64,4 +64,4 @@ class CourseService:
                 return (False, "\nImpossible : ce cours est complet.")
             course.registered_count += 1
             session.commit()
-            return (True, "\nInscription validée.") 
+            return (True, "\nInscription validée.") # fonction qui affiche l'état du cours
