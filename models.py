@@ -9,6 +9,6 @@ class GroupClasses(Base):
     name_course: Mapped[str] = mapped_column(String(100), nullable=False)
     name_coach: Mapped[str] = mapped_column(String(100), nullable=False)
     capacity_of_participants: Mapped[int] = mapped_column(nullable=False, default=0)
-    membre_registered: Mapped[int] = mapped_column(nullable=False, default=0)
+    registered_count: Mapped[int] = mapped_column(nullable=False, default=0)
     price: Mapped[int] = mapped_column(nullable=False, default=0)
     
